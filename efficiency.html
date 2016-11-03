@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>PUE Efficiency Calculator</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+          integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link rel="stylesheet" href="styles.css">
+    <script
+            src="https://code.jquery.com/jquery-3.1.1.min.js"
+            integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
+            crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
+            integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
+            crossorigin="anonymous"></script>
+    <script type='text/javascript' src='http://42u.com/scripts/numeral1.js'></script>
+    <script type='text/javascript' src='effCalc.js'></script>
+    <style>.progressbar {
+        animation: none !important
+    }</style>
+
+</head>
+<body>
+<div style="padding: 50px 0">
+<div class="container">
+    <div class="row">
+        <div class="effCalculator col-md-12">
+            <div class="col-md-12 image-center">
+                <h1 class="calcTitle">PUE Energy Efficiency Savings Calculator</h1>
+                <p>Determine how much you can save by improving data center efficiency.</p>
+                <hr>
+            </div>
+            <div class="col-md-6">
+                <div class="col-md-12 image-center noMarginBottom">
+                    <div id="">
+                        <p class="inputLabel" style="margin-top: 0">Enter Current PUE</p>
+                        <div class="input-group">
+                            <input class="pueOption form-control" type="text" id="curPUE" size="10"
+                                   placeholder="Example: 2.0" title="Enter your current PUE here." maxlength="5">
+                            <div class="input-group-addon addonColor">
+                                <div><p><strong>PUE</strong></p></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-12 image-center noMarginBottom">
+                    <p class="inputLabel">Enter Desired PUE</p>
+                    <div class="input-group">
+                        <input class="pueOption form-control" type="text" id="desPUE" size="10"
+                               placeholder="Example: 1.2" title="This value will represent your desired PUE."
+                               maxlength="5">
+                        <div class="input-group-addon addonColor">
+                            <div><p><strong>PUE</strong></p></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 image-center noMarginBottom">
+                    <p class="inputLabel">Select Country</p>
+                    <select id="countrySelect" class="pueOption form-control">
+
+                    </select>
+                </div>
+                <div class="col-md-6 image-center noMarginBottom">
+                    <p class="inputLabel">Select State</p>
+                    <select id="stateSelect1" class="pueOption form-control"></select>
+                </div>
+                <div class="col-md-6 image-center">
+                    <p class="inputLabel">kW/h Cost</p>
+                    <div class="input-group">
+                        <div class="input-group-addon addonColor" maxlength="5">
+                            <div id="currencyKW"><p><strong>$</strong></p></div>
+                        </div>
+                        <input type="text" class="pueOption form-control" id="kwCost1" size="10"
+                               placeholder="Your cost per kW/h"
+                               title="You can override this value with your actual cost/kW.">
+                    </div>
+                </div>
+                <div class="col-md-6 image-center">
+                    <p class="inputLabel">Total IT Load</p>
+                    <div class="input-group">
+                        <input class="pueOption form-control" type="text" id="totalIt1" size="10" value="2000"
+                               title="Enter your total IT load" maxlength="7">
+                        <div class="input-group-addon addonColor">
+                            <div><p><strong>kW</strong></p></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-12 noOverflow">
+                    <div class="cir-divider-double" style="margin: 5px 0 0"></div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="col-md-12 image-center">
+                    <h3 class="addonColor topPad6" style="height:30px;">Current Efficiency Level</h3>
+                    <div class="mediaBoxResult noOverflow">
+                        <div class="progress pueGradient">
+                            <div id="pueBack1" style="position: absolute; right: 0px; width: 100%">
+                                <div class="progressbar" style="background-color:#ffffff"></div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <p>Total IT Load</p>
+                            <h2 id="totalIt2" class="resultChange">---</h2>
+                        </div>
+                        <div class="col-md-6">
+                            <p>Total Facility Load</p>
+                            <h2 id="totalFac2" class="lastTotal resultChange">---</h2>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-12 image-center topPad6">
+                    <h3 class="addonColor topPad6" style="height:30px;">Desired Efficiency Level</h3>
+                    <div class="mediaBoxResult noOverflow">
+                        <div class="progress pueGradient">
+                            <div id="pueBack2" style="position: absolute; right: 0px; width: 100%">
+                                <div class="progressbar" style="background-color:#ffffff"></div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <p>Desired IT Load</p>
+                            <h2 id="totalIt3" class="resultChange">---</h2>
+                        </div>
+                        <div class="col-md-6">
+                            <p>Desired Facility Load</p>
+                            <h2 id="totalFac3" class="lastTotal resultChange">---</h2>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="infoTable clear col-md-12 image-center">
+                <div class="infoTableCol1 col-md-3">
+                    <div class="cir-mediabox3 mboxPue ">
+                        <div><img src="http://www.42u.com/wp-content/uploads/electricityicon-150x150.png"
+                                  alt="electricityicon" width="150" height="150"
+                                  class="size-thumbnail wp-image-5244 icon1"/></div>
+                        <h3 class="addonColor">Less kW/h Use</h3>
+                        <div class="mediaBoxResult">
+                            <p>1 Year Savings</p>
+                            <h2 class="resultChange" id="elecTotal">---</h2>
+                            <p>5 Year Savings</p>
+                            <h2 class="resultChange" id="elecTotal5yr">---</h2>
+                            <p>10 Year Savings</p>
+                            <h2 class="resultChange lastTotal" id="elecTotal10yr">---</h2>
+                        </div>
+                    </div>
+                </div>
+                <div class="infoTableCol2 col-md-3 image-center">
+                    <div class="cir-mediabox3 mboxPue">
+                        <div><img src="http://www.42u.com/wp-content/uploads/moneyicon-150x150.png" alt="moneyicon"
+                                  width="150" height="150" class="size-thumbnail wp-image-5246"/></div>
+                        <h3 class="addonColor">Less Power Cost</h3>
+                        <div class="mediaBoxResult">
+                            <p>1 Year Savings</p>
+                            <h2 class="resultChange" id="moneyTotal">---</h2>
+                            <p>5 Year Savings</p>
+                            <h2 class="resultChange" id="moneyTotal5yr">---</h2>
+                            <p>10 Year Savings</p>
+                            <h2 class="resultChange lastTotal" id="moneyTotal10yr">---</h2>
+                        </div>
+                    </div>
+                </div>
+                <div class="infoTableCol3 col-md-3 image-center">
+                    <div class="cir-mediabox3 mboxPue">
+                        <div><img src="http://www.42u.com/wp-content/uploads/emissionicon-150x150.png"
+                                  alt="emissionicon" width="150" height="150" class="size-thumbnail wp-image-5245"/>
+                        </div>
+                        <h3 class="addonColor">Less Carbon Tons</h3>
+                        <div class="mediaBoxResult">
+                            <p>1 Year Savings</p>
+                            <h2 class="resultChange" id="emissionTotal">---</h2>
+                            <p>5 Year Savings</p>
+                            <h2 class="resultChange" id="emissionTotal5yr">---</h2>
+                            <p>10 Year Savings</p>
+                            <h2 class="resultChange lastTotal" id="emissionTotal10yr">---</h2>
+                        </div>
+                    </div>
+                </div>
+                <div class="infoTableCol3 col-md-3 col-sm-12 image-center">
+                    <div class="cir-mediabox3 mboxPue">
+                        <div><img src="http://www.42u.com/wp-content/uploads/carIcon-150x150.png" alt="caricon"
+                                  width="150" height="150" class="size-thumbnail wp-image-5227"/></div>
+                        <h3 class="addonColor">Less Vehicles</h3>
+                        <div class="mediaBoxResult">
+                            <p>1 Year Savings</p>
+                            <h2 class="resultChange" id="carTotal">---</h2>
+                            <p>5 Year Savings</p>
+                            <h2 class="resultChange" id="carTotal5yr">---</h2>
+                            <p>10 Year Savings</p>
+                            <h2 class="resultChange lastTotal" id="carTotal10yr">---</h2>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+</body>
+</html>
